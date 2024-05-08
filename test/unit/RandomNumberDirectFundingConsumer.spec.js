@@ -203,25 +203,25 @@ const { assert, expect } = require("chai")
                       expect(randomWords.toString()).to.equal(randomness.toString())
 
                       // check final Wrapper final subscription balance
-                      const { balance: finalSubscriptionbalance } =
-                          await coordinator.getSubscription(subscriptionId)
+                      //const { balance: finalSubscriptionbalance } =
+                        //  await coordinator.getSubscription(subscriptionId)
 
-                      console.log("price", price.toString())
-                      console.log("paid", paid.toString())
-                      console.log(
-                          "wrapper balance",
-                          (await link.balanceOf(wrapper.address)).toString()
-                      )
-                      console.log(
-                          "initial subscription balance",
-                          initialSubscriptionbalance.toString()
-                      )
-                      console.log("final subscription balance", finalSubscriptionbalance.toString())
-                      const paidByWrapper = initialSubscriptionbalance.sub(finalSubscriptionbalance)
-                      console.log("paid by wrapper", paidByWrapper.toString())
-                      const wrapperPremium = paid.sub(paidByWrapper)
-                      console.log("wrapperPremium", wrapperPremium.toString())
-                      console.log("percentage", wrapperPremium.mul(100).div(paid).toString())
+                      //console.log("price", price.toString())
+                      //console.log("paid", paid.toString())
+                    //   console.log(
+                    //       "wrapper balance",
+                    //       (await link.balanceOf(wrapper.address)).toString()
+                    //   )
+                    //   console.log(
+                    //       "initial subscription balance",
+                    //       initialSubscriptionbalance.toString()
+                    //   )
+                      //console.log("final subscription balance", finalSubscriptionbalance.toString())
+                    //   const paidByWrapper = initialSubscriptionbalance.sub(finalSubscriptionbalance)
+                    //   console.log("paid by wrapper", paidByWrapper.toString())
+                    //   const wrapperPremium = paid.sub(paidByWrapper)
+                    //   console.log("wrapperPremium", wrapperPremium.toString())
+                    //   console.log("percentage", wrapperPremium.mul(100).div(paid).toString())
                   })
 
                   it("Should be able to request several random words", async () => {
