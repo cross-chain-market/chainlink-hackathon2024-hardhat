@@ -3,13 +3,13 @@
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 
-contract Collection is ERC1155, Ownable, ERC1155Burnable {
+contract Collection is ERC1155, ERC1155Burnable {
     uint256 public collectionId;
     string public collectionName;
     string public collectionImageUrl;
+    address public owner;
 
     constructor(
         uint256 _collectionId,
@@ -20,6 +20,7 @@ contract Collection is ERC1155, Ownable, ERC1155Burnable {
         string memory baseImagePath,
         address marketplaceAccount
     ) ERC1155("Collection") {
+        owner = msg.sender;
         setURI(baseImagePath);
         collectionId = _collectionId;
         collectionName = _collectionName;
@@ -44,7 +45,6 @@ contract Collection is ERC1155, Ownable, ERC1155Burnable {
     }
 
     function transferListing(
-        address from,
         address to,
         uint256 id,
         uint256 amount
@@ -54,25 +54,25 @@ contract Collection is ERC1155, Ownable, ERC1155Burnable {
             "amount greater then available amount"
         );
         require(
-            msg.sender == owner() ||
-            isApprovedForAll(owner(), msg.sender),
+            msg.sender == owner ||
+            isApprovedForAll(owner, msg.sender),
             "operator is not approved to do this operation"
         );
-        super._safeTransferFrom(from, to, id, amount, bytes(""));
+        super._safeTransferFrom(owner, to, id, amount, bytes(""));
     }
 
     function getBalance(uint256 id) internal view returns (uint256) {
-        return balanceOf(owner(), id);
+        return balanceOf(owner, id);
     }
 
-    function _beforeTokenTransfer(
-        address operator,
-        address from,
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts,
-        bytes memory data
-    ) internal override(ERC1155) {
-        super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
+    function transferOwnership(address account) onlyOwner external {
+        owner = account;
+    }
+
+    receive() external payable {}
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "not owner of contract");
+        _;
     }
 }

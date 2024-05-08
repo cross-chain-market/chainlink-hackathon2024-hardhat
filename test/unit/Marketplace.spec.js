@@ -309,7 +309,6 @@ describe.only("Marketplace & collection uint tests", () => {
             } = await loadFixture(deployMarketplaceFixture);
             assert.equal(await collectionContract.owner(), collectionOwner.address);
             await collectionContract.transferListing(
-                collectionOwner.address,
                 buyerAccount.address,
                 10,
                 5

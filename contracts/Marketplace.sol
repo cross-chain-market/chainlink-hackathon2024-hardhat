@@ -19,7 +19,6 @@ interface ICollection {
     ) external;
 
     function transferListing(
-        address from,
         address to,
         uint256 id,
         uint256 amount
@@ -73,11 +72,17 @@ contract Marketplace {
     ) external payable {
         require(msg.value > 0, "payment should be greater then zero");
         require(amount > 0, "amount of listings should be greater then zero");
-        require(marketCollection[collectionId] != address(0), "Collection does not exist");
-        ICollection collection = ICollection(marketCollection[collectionId]);
-        collection.transferListing(collection.owner(), to, listingId, amount);
-        payable(address(this)).transfer(msg.value * (fee / 100));
-        payable(collection.owner()).transfer((msg.value * (100 - fee)) / 100);
+        address collectionAddress = marketCollection[collectionId];
+        require(collectionAddress != address(0), "Collection does not exist");
+        ICollection collection = ICollection(collectionAddress);
+        ICollection(collectionAddress).transferListing(to, listingId, amount);
+
+        uint256 feeAmount = (msg.value * fee) / 100;
+        uint256 paymentToOwner = msg.value - feeAmount;
+
+        (bool success, ) = payable(collection.owner()).call{value: paymentToOwner}("");
+        require(success, "Payment to owner failed");
+
         emit ListingBought(collectionId, listingId, amount, to);
     }
 
