@@ -10,28 +10,25 @@ describe.only("Marketplace & collection uint tests", () => {
 
         const MarketplaceFactory = await ethers.getContractFactory("Marketplace");
         const CollectionFactory = await ethers.getContractFactory("Collection");
-
         // Specify the gas limit in the deployment options
-        const options = { gasLimit: 1050000 }; // Set the gas limit as needed
+        const options = { gasLimit: 30000000 }; // Set the gas limit as needed
         const marketplaceFactoryWithNewSigner = await MarketplaceFactory.connect(marketplaceOwner);
         const marketplaceContract = await marketplaceFactoryWithNewSigner.deploy(options);
-
         const collectionId = 1;
         const collectionName = "My Collection";
         const collectionImageUrl = "https://example.com/collection-image.jpg";
         const ids = [10, 20, 30];
         const totalAmounts = [100, 200, 300];
         const baseImagePath = "https://example.com/images/";
-
         const collectionContract = await CollectionFactory.deploy(
             collectionId,
             collectionName,
-            collectionImageUrl,
             ids,
             totalAmounts,
             baseImagePath,
             marketplaceContract.address
         );
+        console.log("---> 4");
         return {
             marketplaceContract,
             collectionContract,
@@ -121,9 +118,16 @@ describe.only("Marketplace & collection uint tests", () => {
             expect(await marketplaceContract.getBalance()).to.be.greaterThan(initialBalance);
 
             // Assert that the balance decreased by 3 ETH
-            const marketplaceOwnerInitialBalance = await ethers.provider.getBalance(marketplaceOwner.address);
-            await marketplaceContract.transferTokens(marketplaceOwner.address, ethers.utils.parseEther("3"));
-            const marketplaceOwnerFinalBalance = await ethers.provider.getBalance(marketplaceOwner.address);
+            const marketplaceOwnerInitialBalance = await ethers.provider.getBalance(
+                marketplaceOwner.address
+            );
+            await marketplaceContract.transferTokens(
+                marketplaceOwner.address,
+                ethers.utils.parseEther("3")
+            );
+            const marketplaceOwnerFinalBalance = await ethers.provider.getBalance(
+                marketplaceOwner.address
+            );
             expect(marketplaceOwnerFinalBalance).to.be.greaterThan(marketplaceOwnerInitialBalance);
         });
 
@@ -180,25 +184,22 @@ describe.only("Marketplace & collection uint tests", () => {
                 ).to.emit(marketplaceContract, "CollectionCreated");
             });
 
-            if (
-                ("check that buyListing can't be done without adding collection to marketplace",
-                async () => {
-                    // Connect to the marketplace contract with the buyerAccount
-                    const marketplaceContractWithBuyer = marketplaceContract.connect(buyerAccount);
-                    try {
-                        const tx = await marketplaceContractWithBuyer.buyListing(
-                            await collectionContract.collectionId(),
-                            10,
-                            5,
-                            buyerAccount.address,
-                            { value: transferredValue }
-                        );
-                        expect.fail("Expected function call to revert, but it did not");
-                    } catch (err) {
-                        expect(err.message).to.contain("Collection does not exist");
-                    }
-                })
-            );
+            it("check that buyListing can't be done without adding collection to marketplace", async () => {
+                // Connect to the marketplace contract with the buyerAccount
+                const marketplaceContractWithBuyer = marketplaceContract.connect(buyerAccount);
+                try {
+                    const tx = await marketplaceContractWithBuyer.buyListing(
+                        await collectionContract.collectionId(),
+                        10,
+                        5,
+                        buyerAccount.address,
+                        { value: transferredValue }
+                    );
+                    expect.fail("Expected function call to revert, but it did not");
+                } catch (err) {
+                    expect(err.message).to.contain("Collection does not exist");
+                }
+            });
 
             it("check buyListing & updated balanced", async () => {
                 await marketplaceContract.addCollection(
@@ -266,7 +267,7 @@ describe.only("Marketplace & collection uint tests", () => {
             } = await loadFixture(deployMarketplaceFixture);
             assert.equal(await collectionContract.owner(), collectionOwner.address);
             assert.equal(await collectionContract.collectionId(), 1);
-            assert.equal(await collectionContract.collectionName(), "My Collection");
+            assert.equal(await collectionContract.name(), "My Collection");
             assert.equal(await collectionContract.balanceOf(collectionOwner.address, 10), 100);
         });
 
@@ -279,11 +280,7 @@ describe.only("Marketplace & collection uint tests", () => {
                 buyerAccount,
             } = await loadFixture(deployMarketplaceFixture);
             assert.equal(await collectionContract.collectionId(), 1);
-            assert.equal(await collectionContract.collectionName(), "My Collection");
-            assert.equal(
-                await collectionContract.collectionImageUrl(),
-                "https://example.com/collection-image.jpg"
-            );
+            assert.equal(await collectionContract.name(), "My Collection");
         });
 
         it("balance of items in collection", async () => {
@@ -308,11 +305,7 @@ describe.only("Marketplace & collection uint tests", () => {
                 buyerAccount,
             } = await loadFixture(deployMarketplaceFixture);
             assert.equal(await collectionContract.owner(), collectionOwner.address);
-            await collectionContract.transferListing(
-                buyerAccount.address,
-                10,
-                5
-            );
+            await collectionContract.transferListing(buyerAccount.address, 10, 5);
             assert.equal(await collectionContract.balanceOf(collectionOwner.address, 10), 95);
             assert.equal(await collectionContract.balanceOf(buyerAccount.address, 10), 5);
         });
