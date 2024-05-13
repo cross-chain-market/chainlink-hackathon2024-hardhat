@@ -26,21 +26,21 @@ contract PriceConversion {
 
     function getETHUSD() public view returns (int256) {
         (, int256 answer, , , ) = ethUsdDataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 
     function getMATICUSD() public view returns (int256) {
         (, int256 answer, , , ) = maticUsdDataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 
     function getAVAXUSD() public view returns (int256) {
         (, int256 answer, , , ) = avaxUsdDataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 
     function getBTCUSD() public view returns (int256) {
         (, int256 answer, , , ) = btcUsdDataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 }

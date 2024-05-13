@@ -22,16 +22,16 @@ contract PriceConversion {
 
     function getETHUSD() public view returns (int256) {
         (, int256 answer, , , ) = ethUsdDataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 
     function getLINKUSD() public view returns (int256) {
         (, int256 answer, , , ) = linkUsdDataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 
     function getMATICUSD() public view returns (int256) {
         (, int256 answer, , , ) = maticUsdDataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 }

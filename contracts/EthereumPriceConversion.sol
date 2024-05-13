@@ -17,11 +17,11 @@ contract PriceConversion {
 
     function getETHUSD() public view returns (int256) {
         (, int256 answer, , , ) = ethUsddataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 
     function getLINKUSD() public view returns (int256) {
         (, int256 answer, , , ) = linkUsddataFeed.latestRoundData();
-        return answer;
+        return answer / (10 ** 8);
     }
 }
