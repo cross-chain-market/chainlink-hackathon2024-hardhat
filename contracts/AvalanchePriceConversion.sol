@@ -3,7 +3,7 @@ pragma solidity ^0.8.19;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-contract PriceConversion {
+contract AvalanchePriceConversion {
     AggregatorV3Interface internal ethUsdDataFeed;
     AggregatorV3Interface internal linkUsdDataFeed;
     AggregatorV3Interface internal avaxUsdDataFeed;

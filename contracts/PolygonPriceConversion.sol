@@ -3,7 +3,7 @@ pragma solidity ^0.8.19;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
-contract PriceConversion {
+contract PolygonPriceConversion {
     AggregatorV3Interface internal ethUsdDataFeed;
     AggregatorV3Interface internal linkUsdDataFeed;
     AggregatorV3Interface internal maticUsdDataFeed;
@@ -17,8 +17,6 @@ contract PriceConversion {
         linkUsdDataFeed = _linkUsdDataFeed;
         maticUsdDataFeed = _maticUsdDataFeed;
     }
-
-    // getters
 
     function getETHUSD() public view returns (int256) {
         (, int256 answer, , , ) = ethUsdDataFeed.latestRoundData();
