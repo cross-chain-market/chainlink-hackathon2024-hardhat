@@ -4,27 +4,27 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Collection is ERC1155, ERC1155Burnable {
     uint256 public collectionId;
-    string public collectionName;
-    string public collectionImageUrl;
+    string public name;
+    string public collectionBaseHash;
     address public owner;
 
     constructor(
         uint256 _collectionId,
         string memory _collectionName,
-        string memory _collectionImageUrl,
         uint256[] memory ids,
         uint256[] memory totalAmounts,
-        string memory baseImagePath,
+        string memory baseHash,
         address marketplaceAccount
     ) ERC1155("Collection") {
         owner = msg.sender;
-        setURI(baseImagePath);
+        setURI(baseHash);
         collectionId = _collectionId;
-        collectionName = _collectionName;
-        collectionImageUrl = _collectionImageUrl;
+        name = _collectionName;
+        collectionBaseHash = baseHash;
         _mintBatch(msg.sender, ids, totalAmounts, "");
         setApprovalForAll(marketplaceAccount, true);
     }
@@ -42,6 +42,22 @@ contract Collection is ERC1155, ERC1155Burnable {
 
     function setURI(string memory newuri) public onlyOwner {
         _setURI(newuri);
+    }
+
+    // URI for specific item
+    function uri (uint256 imageHash) public view override returns (string memory) {
+        return string(abi.encodePacked(
+            "https://ipfs.io/ipfs/",
+            collectionBaseHash,
+            "/",
+            Strings.toString(imageHash),
+            ".json"
+        ));
+    }
+
+    // URI for collection
+    function contractURI() public view returns (string memory) {
+        return string(abi.encodePacked("https://ipfs.io/ipfs/", collectionBaseHash, "/collection.json"));
     }
 
     function transferListing(
