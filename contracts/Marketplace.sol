@@ -55,14 +55,13 @@ contract Marketplace {
     function buyListing(
         address collectionAddress,
         uint256 listingId,
-        uint256 amount,
-        address to
+        uint256 amount
     ) external payable {
         require(msg.value > 0, "payment should be greater then zero");
         require(amount > 0, "amount of listings should be greater then zero");
         require(collectionAddress != address(0), "Collection does not exist");
         ICollection collection = ICollection(collectionAddress);
-        ICollection(collectionAddress).transferListing(to, listingId, amount);
+        ICollection(collectionAddress).transferListing(msg.sender, listingId, amount);
 
         uint256 feeAmount = (msg.value * fee) / 100;
         uint256 paymentToOwner = msg.value - feeAmount;
@@ -70,7 +69,7 @@ contract Marketplace {
         (bool success, ) = payable(collection.owner()).call{value: paymentToOwner}("");
         require(success, "Payment to owner failed");
 
-        emit ListingBoughtLog(collectionAddress, listingId, amount, to);
+        emit ListingBoughtLog(collectionAddress, listingId, amount, msg.sender);
     }
 
     function transferOwnership(address account) onlyOwner external {
