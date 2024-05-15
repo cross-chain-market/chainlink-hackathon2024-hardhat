@@ -62,7 +62,6 @@ describe("Marketplace & collection uint tests", () => {
                     await collectionContract.address,
                     10,
                     5,
-                    buyerAccount.address,
                     { value: 30 }
                 );
                 expect.fail("Expected function call to revert, but it did not");
@@ -158,7 +157,6 @@ describe("Marketplace & collection uint tests", () => {
                     await collectionContract.address,
                     10,
                     5,
-                    buyerAccount.address,
                     { value: transferredValue }
                 );
 
