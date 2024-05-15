@@ -14,21 +14,18 @@ describe.only("Marketplace & collection uint tests", () => {
         const options = { gasLimit: 30000000 }; // Set the gas limit as needed
         const marketplaceFactoryWithNewSigner = await MarketplaceFactory.connect(marketplaceOwner);
         const marketplaceContract = await marketplaceFactoryWithNewSigner.deploy(options);
-        const collectionId = 1;
         const collectionName = "My Collection";
         const collectionImageUrl = "https://example.com/collection-image.jpg";
         const ids = [10, 20, 30];
         const totalAmounts = [100, 200, 300];
         const baseImagePath = "https://example.com/images/";
         const collectionContract = await CollectionFactory.deploy(
-            collectionId,
             collectionName,
             ids,
             totalAmounts,
             baseImagePath,
             marketplaceContract.address
         );
-        console.log("---> 4");
         return {
             marketplaceContract,
             collectionContract,
@@ -50,22 +47,6 @@ describe.only("Marketplace & collection uint tests", () => {
             assert.equal(await marketplaceContract.owner(), marketplaceOwner.address);
         });
 
-        it("addCollection", async () => {
-            const {
-                marketplaceContract,
-                collectionContract,
-                marketplaceOwner,
-                collectionOwner,
-                buyerAccount,
-            } = await loadFixture(deployMarketplaceFixture);
-            expect(
-                await marketplaceContract.addCollection(
-                    collectionContract.address,
-                    collectionContract.collectionId()
-                )
-            ).to.emit(marketplaceContract, "CollectionCreated");
-        });
-
         it("buyListing (marketplace is not approved to transfer)", async () => {
             const {
                 marketplaceContract,
@@ -75,16 +56,10 @@ describe.only("Marketplace & collection uint tests", () => {
                 buyerAccount,
             } = await loadFixture(deployMarketplaceFixture);
             expect(await marketplaceContract.owner()).to.equal(marketplaceOwner.address);
-            expect(
-                await marketplaceContract.addCollection(
-                    collectionContract.address,
-                    collectionContract.collectionId()
-                )
-            ).to.emit(marketplaceContract, "CollectionCreated");
             await collectionContract.setApprovalForAll(marketplaceContract.address, false);
             try {
                 await marketplaceContract.buyListing(
-                    await collectionContract.collectionId(),
+                    await collectionContract.address,
                     10,
                     5,
                     buyerAccount.address,
@@ -175,43 +150,12 @@ describe.only("Marketplace & collection uint tests", () => {
                 expect(await marketplaceContract.owner()).to.equal(marketplaceOwner.address);
             });
 
-            it("check CollectionCreated event fired", async () => {
-                expect(
-                    await marketplaceContract.addCollection(
-                        collectionContract.address,
-                        collectionContract.collectionId()
-                    )
-                ).to.emit(marketplaceContract, "CollectionCreated");
-            });
-
-            it("check that buyListing can't be done without adding collection to marketplace", async () => {
-                // Connect to the marketplace contract with the buyerAccount
-                const marketplaceContractWithBuyer = marketplaceContract.connect(buyerAccount);
-                try {
-                    const tx = await marketplaceContractWithBuyer.buyListing(
-                        await collectionContract.collectionId(),
-                        10,
-                        5,
-                        buyerAccount.address,
-                        { value: transferredValue }
-                    );
-                    expect.fail("Expected function call to revert, but it did not");
-                } catch (err) {
-                    expect(err.message).to.contain("Collection does not exist");
-                }
-            });
-
             it("check buyListing & updated balanced", async () => {
-                await marketplaceContract.addCollection(
-                    collectionContract.address,
-                    collectionContract.collectionId()
-                );
-
                 // Connect to the marketplace contract with the buyerAccount
                 const marketplaceContractWithBuyer = marketplaceContract.connect(buyerAccount);
 
                 const tx = await marketplaceContractWithBuyer.buyListing(
-                    await collectionContract.collectionId(),
+                    await collectionContract.address,
                     10,
                     5,
                     buyerAccount.address,
@@ -266,7 +210,6 @@ describe.only("Marketplace & collection uint tests", () => {
                 buyerAccount,
             } = await loadFixture(deployMarketplaceFixture);
             assert.equal(await collectionContract.owner(), collectionOwner.address);
-            assert.equal(await collectionContract.collectionId(), 1);
             assert.equal(await collectionContract.name(), "My Collection");
             assert.equal(await collectionContract.balanceOf(collectionOwner.address, 10), 100);
         });
@@ -279,7 +222,6 @@ describe.only("Marketplace & collection uint tests", () => {
                 collectionOwner,
                 buyerAccount,
             } = await loadFixture(deployMarketplaceFixture);
-            assert.equal(await collectionContract.collectionId(), 1);
             assert.equal(await collectionContract.name(), "My Collection");
         });
 
