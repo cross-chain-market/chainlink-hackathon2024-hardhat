@@ -35,7 +35,7 @@ const { assert } = require("chai");
                       );
                       const priceConsumerResult = await ethereumPriceConversion.getETHUSD();
                       const priceFeedResult =
-                          (await mockV3Aggregator.latestRoundData()).answer / 10 ** 8;
+                          ((await mockV3Aggregator.latestRoundData()).answer * 100) / 10 ** 8;
 
                       assert.equal(priceConsumerResult.toString(), priceFeedResult.toString());
                   });
@@ -50,7 +50,7 @@ const { assert } = require("chai");
                       );
                       const priceConsumerResult = await ethereumPriceConversion.getLINKUSD();
                       const priceFeedResult =
-                          (await mockV3Aggregator.latestRoundData()).answer / 10 ** 8;
+                          ((await mockV3Aggregator.latestRoundData()).answer * 100) / 10 ** 8;
 
                       assert.equal(priceConsumerResult.toString(), priceFeedResult.toString());
                   });

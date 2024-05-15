@@ -24,23 +24,27 @@ contract AvalanchePriceConversion {
         btcUsdDataFeed = _btcUsdDataFeed;
     }
 
-    function getETHUSD() public view returns (int256) {
+    function getETHUSD() public view returns (uint256) {
         (, int256 answer, , , ) = ethUsdDataFeed.latestRoundData();
-        return answer / (10 ** 8);
+        return (uint256(answer) * 100) / (10 ** 8);
     }
 
-    function getMATICUSD() public view returns (int256) {
+    function getMATICUSD() public view returns (uint256) {
         (, int256 answer, , , ) = maticUsdDataFeed.latestRoundData();
-        return answer / (10 ** 8);
+        return (uint256(answer) * 100) / (10 ** 8);
     }
 
-    function getAVAXUSD() public view returns (int256) {
+    function getAVAXUSD() public view returns (uint256) {
         (, int256 answer, , , ) = avaxUsdDataFeed.latestRoundData();
-        return answer / (10 ** 8);
+        return (uint256(answer) * 100) / (10 ** 8);
     }
 
-    function getBTCUSD() public view returns (int256) {
+    function getBTCUSD() public view returns (uint256) {
         (, int256 answer, , , ) = btcUsdDataFeed.latestRoundData();
-        return answer / (10 ** 8);
+        return (uint256(answer) * 100) / (10 ** 8);
+    }
+
+    function getDecimals() public pure returns (uint256) {
+        return 2;
     }
 }

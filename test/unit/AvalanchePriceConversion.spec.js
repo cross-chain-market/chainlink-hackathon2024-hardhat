@@ -41,7 +41,7 @@ const { assert } = require("chai");
                       );
                       const priceConsumerResult = await avalanchePriceConversion.getETHUSD();
                       const priceFeedResult =
-                          (await mockV3Aggregator.latestRoundData()).answer / 10 ** 8;
+                          ((await mockV3Aggregator.latestRoundData()).answer * 100) / 10 ** 8;
 
                       assert.equal(priceConsumerResult.toString(), priceFeedResult.toString());
                   });
@@ -56,7 +56,7 @@ const { assert } = require("chai");
                       );
                       const priceConsumerResult = await avalanchePriceConversion.getMATICUSD();
                       const priceFeedResult =
-                          (await mockV3Aggregator.latestRoundData()).answer / 10 ** 8;
+                          ((await mockV3Aggregator.latestRoundData()).answer * 100) / 10 ** 8;
 
                       assert.equal(priceConsumerResult.toString(), priceFeedResult.toString());
                   });
@@ -71,7 +71,7 @@ const { assert } = require("chai");
                       );
                       const priceConsumerResult = await avalanchePriceConversion.getAVAXUSD();
                       const priceFeedResult =
-                          (await mockV3Aggregator.latestRoundData()).answer / 10 ** 8;
+                          ((await mockV3Aggregator.latestRoundData()).answer * 100) / 10 ** 8;
 
                       assert.equal(priceConsumerResult.toString(), priceFeedResult.toString());
                   });
@@ -86,7 +86,7 @@ const { assert } = require("chai");
                       );
                       const priceConsumerResult = await avalanchePriceConversion.getBTCUSD();
                       const priceFeedResult =
-                          (await mockV3Aggregator.latestRoundData()).answer / 10 ** 8;
+                          ((await mockV3Aggregator.latestRoundData()).answer * 100) / 10 ** 8;
 
                       assert.equal(priceConsumerResult.toString(), priceFeedResult.toString());
                   });

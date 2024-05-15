@@ -15,13 +15,17 @@ contract EthereumPriceConversion {
         linkUsddataFeed = AggregatorV3Interface(_linkUsddataFeed);
     }
 
-    function getETHUSD() public view returns (int256) {
+    function getETHUSD() public view returns (uint256) {
         (, int256 answer, , , ) = ethUsddataFeed.latestRoundData();
-        return answer / (10 ** 8);
+        return (uint256(answer) * 100) / (10 ** 8);
     }
 
-    function getLINKUSD() public view returns (int256) {
+    function getLINKUSD() public view returns (uint256) {
         (, int256 answer, , , ) = linkUsddataFeed.latestRoundData();
-        return answer / (10 ** 8);
+        return (uint256(answer) * 100) / (10 ** 8);
+    }
+
+    function getDecimals() public pure returns (uint256) {
+        return 2;
     }
 }
