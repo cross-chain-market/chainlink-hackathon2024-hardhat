@@ -2,7 +2,7 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 const { assert, expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe.only("Marketplace & collection uint tests", () => {
+describe("Marketplace & collection uint tests", () => {
     const deployMarketplaceFixture = async () => {
         // Contracts are deployed using the first signer/account by default
         const [collectionOwner, marketplaceOwner, backendAccount, buyerAccount] =
