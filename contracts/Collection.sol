@@ -7,23 +7,19 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Collection is ERC1155, ERC1155Burnable {
-    uint256 public collectionId;
     string public name;
     string public collectionBaseHash;
     address public owner;
 
     constructor(
-        uint256 _collectionId,
-        string memory _collectionName,
+        string memory collectionName,
         uint256[] memory ids,
         uint256[] memory totalAmounts,
         string memory baseHash,
         address marketplaceAccount
-    ) ERC1155("Collection") {
+    ) ERC1155(baseHash) {
         owner = msg.sender;
-        setURI(baseHash);
-        collectionId = _collectionId;
-        name = _collectionName;
+        name = collectionName;
         collectionBaseHash = baseHash;
         _mintBatch(msg.sender, ids, totalAmounts, "");
         setApprovalForAll(marketplaceAccount, true);
