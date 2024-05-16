@@ -3,10 +3,9 @@
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract Collection is ERC1155, ERC1155Burnable {
+contract Collection is ERC1155 {
     string public name;
     string public collectionBaseHash;
     address public owner;
@@ -18,10 +17,10 @@ contract Collection is ERC1155, ERC1155Burnable {
         string memory baseHash,
         address marketplaceAccount
     ) ERC1155(baseHash) {
-        owner = msg.sender;
+        owner = tx.origin;
         name = collectionName;
         collectionBaseHash = baseHash;
-        _mintBatch(msg.sender, ids, totalAmounts, "");
+        _mintBatch(tx.origin, ids, totalAmounts, "");
         setApprovalForAll(marketplaceAccount, true);
     }
 
