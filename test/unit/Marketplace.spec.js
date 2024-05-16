@@ -15,7 +15,6 @@ describe("Marketplace & collection uint tests", () => {
         const marketplaceFactoryWithNewSigner = await MarketplaceFactory.connect(marketplaceOwner);
         const marketplaceContract = await marketplaceFactoryWithNewSigner.deploy(options);
         const collectionName = "My Collection";
-        const collectionImageUrl = "https://example.com/collection-image.jpg";
         const ids = [10, 20, 30];
         const totalAmounts = [100, 200, 300];
         const baseImagePath = "https://example.com/images/";
