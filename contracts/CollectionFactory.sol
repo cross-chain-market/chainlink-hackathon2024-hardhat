@@ -23,9 +23,4 @@ contract CollectionFactory {
         emit CollectionDeployedLog(address(newCollection), msg.sender);
         return address(newCollection);
     }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner, "not owner of contract");
-        _;
-    }
 }
