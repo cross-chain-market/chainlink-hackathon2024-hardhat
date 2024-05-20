@@ -22,8 +22,7 @@ describe("Marketplace & collection uint tests", () => {
             collectionName,
             ids,
             totalAmounts,
-            baseImagePath,
-            marketplaceContract.address
+            baseImagePath
         );
         return {
             marketplaceContract,
@@ -151,6 +150,8 @@ describe("Marketplace & collection uint tests", () => {
             it("check buyListing & updated balanced", async () => {
                 // Connect to the marketplace contract with the buyerAccount
                 const marketplaceContractWithBuyer = marketplaceContract.connect(buyerAccount);
+                await collectionContract.setApprovalForAll(marketplaceContract.address, true);
+
 
                 const tx = await marketplaceContractWithBuyer.buyListing(
                     await collectionContract.address,

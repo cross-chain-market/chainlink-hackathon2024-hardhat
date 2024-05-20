@@ -5,7 +5,7 @@ import './Collection.sol';
 
 contract CollectionFactory {
     address public owner;
-    mapping(address => address) collections;
+    mapping(address => address) public collections;
 
     constructor() {
         owner = msg.sender;
@@ -18,10 +18,13 @@ contract CollectionFactory {
         uint256[] memory totalAmounts,
         string memory baseHash,
         address marketplaceAccount) external returns(address) {
-        // TODO: add checks for inputs
-        Collection newCollection = new Collection(collectionName, ids, totalAmounts, baseHash, marketplaceAccount);
-        collections[address(newCollection)] = msg.sender;
+        require(bytes(collectionName).length > 0, "Collection name is required");
+        require(ids.length > 0, "IDs array must not be empty");
+        require(ids.length == totalAmounts.length, "IDs and totalAmounts arrays must have the same length");
+        require(marketplaceAccount != address(0), "Marketplace account is required");
+        Collection newCollection = new Collection(collectionName, ids, totalAmounts, baseHash);
         emit CollectionDeployedLog(address(newCollection), msg.sender, collectionName);
+        collections[address(newCollection)] = msg.sender;
         return address(newCollection);
     }
 }
