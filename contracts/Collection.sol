@@ -14,14 +14,12 @@ contract Collection is ERC1155 {
         string memory collectionName,
         uint256[] memory ids,
         uint256[] memory totalAmounts,
-        string memory baseHash,
-        address marketplaceAccount
+        string memory baseHash
     ) ERC1155(baseHash) {
         owner = tx.origin;
         name = collectionName;
         collectionBaseHash = baseHash;
         _mintBatch(tx.origin, ids, totalAmounts, "");
-        setApprovalForAll(marketplaceAccount, true);
     }
 
     function addItem(uint256 id, uint256 amount) external onlyOwner {

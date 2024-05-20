@@ -2,22 +2,6 @@
 pragma solidity ^0.8.19;
 
 interface ICollection {
-    function addItem(address to, uint256 id, uint256 amount) external;
-
-    function addItems(
-        address to,
-        uint256[] memory ids,
-        uint256[] memory amounts
-    ) external;
-
-    function setURI(string memory newuri) external;
-
-    function _setApprovalForAll(
-        address owner,
-        address operator,
-        bool approved
-    ) external;
-
     function transferListing(
         address to,
         uint256 id,
