@@ -42,6 +42,8 @@
     "typechain": "^8.1.0"
   },
   "dependencies": {
+    "@chainlink/contracts-ccip": "^1.4.0",
+    "@chainlink/local": "git+https://github.com/smartcontractkit/chainlink-local.git",
     "dotenv": "^16.0.3",
     "pre-commit": "^1.2.2"
   },
