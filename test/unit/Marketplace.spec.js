@@ -2,7 +2,7 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 const { assert, expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Marketplace & collection uint tests", () => {
+describe.only("Marketplace & collection uint tests", () => {
     const deployMarketplaceFixture = async () => {
         // Contracts are deployed using the first signer/account by default
         const [collectionOwner, marketplaceOwner, backendAccount, buyerAccount] =
@@ -37,12 +37,16 @@ describe("Marketplace & collection uint tests", () => {
         it("deploy", async () => {
             const {
                 marketplaceContract,
-                collectionContract,
-                marketplaceOwner,
-                collectionOwner,
-                buyerAccount,
+                marketplaceOwner
             } = await loadFixture(deployMarketplaceFixture);
             assert.equal(await marketplaceContract.owner(), marketplaceOwner.address);
+        });
+
+        it("get chain id", async () => {
+            const {
+                marketplaceContract,
+            } = await loadFixture(deployMarketplaceFixture);
+            assert.equal(await marketplaceContract.chainId(), BigInt(31337));
         });
 
         it("buyListing (marketplace is not approved to transfer)", async () => {
