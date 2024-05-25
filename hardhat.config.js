@@ -1,6 +1,9 @@
 require("@nomicfoundation/hardhat-toolbox")
 require("./tasks")
 require("dotenv").config()
+const { ethers } = require("ethers");
+require("@nomiclabs/hardhat-etherscan")
+// require("@nomicfoundation/hardhat-ignition-ethers")
 
 const COMPILER_SETTINGS = {
     optimizer: {
@@ -15,14 +18,18 @@ const COMPILER_SETTINGS = {
 const MAINNET_RPC_URL =
     process.env.MAINNET_RPC_URL ||
     process.env.ALCHEMY_MAINNET_RPC_URL ||
-    "https://eth-mainnet.alchemyapi.io/v2/your-api-key"
+    "https://eth-mainnet.alchemyapi.io/v2/your-api-key";
 const POLYGON_MAINNET_RPC_URL =
-    process.env.POLYGON_MAINNET_RPC_URL || "https://polygon-mainnet.alchemyapi.io/v2/your-api-key"
-const SEPOLIA_RPC_URL =
-    process.env.SEPOLIA_RPC_URL;
+process.env.POLYGON_MAINNET_RPC_URL || "https://polygon-mainnet.alchemyapi.io/v2/your-api-key";
 const MUMBAI_RPC_URL =
     process.env.MUMBAI_RPC_URL || "https://polygon-mumbai.g.alchemy.com/v2/your-api-key"
-const PRIVATE_KEY = process.env.PRIVATE_KEY
+const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
+const ARBITRUM_SEPOLIA_RPC_URL = process.env.ARBITRUM_SEPOLIA_RPC_URL;
+const AVALANCH_FUJI_RPC_URL = process.env.AVALANCH_FUJI_RPC_URL;
+const POLYGON_AMOY_RPC_URL = process.env.POLYGON_AMOY_RPC_URL;
+const OPTIMISM_SEPOLIA_RPC_URL = process.env.OPTIMISM_SEPOLIA_RPC_URL;
+
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 // optional
 const MNEMONIC = process.env.MNEMONIC || "Your mnemonic"
 const FORKING_BLOCK_NUMBER = parseInt(process.env.FORKING_BLOCK_NUMBER) || 0
@@ -71,17 +78,11 @@ module.exports = {
         sepolia: {
             url: SEPOLIA_RPC_URL !== undefined ? SEPOLIA_RPC_URL : "",
             accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            //   accounts: {
-            //     mnemonic: MNEMONIC,
-            //   },
             chainId: 11155111,
         },
         mainnet: {
             url: MAINNET_RPC_URL,
             accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            //   accounts: {
-            //     mnemonic: MNEMONIC,
-            //   },
             chainId: 1,
         },
         polygon: {
@@ -89,11 +90,26 @@ module.exports = {
             accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
             chainId: 137,
         },
-        mumbai: {
-            url: MUMBAI_RPC_URL,
-            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
-            chainId: 80001,
-        },
+        // avalancheFuji: {
+        //     url: AVALANCH_FUJI_RPC_URL,
+        //     accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+        //     chainId: 43113,
+        // },
+        // polygonAmoy: {
+        //     url: POLYGON_AMOY_RPC_URL,
+        //     accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+        //     chainId: 80002,
+        // },
+        // arbitrumSepolia: {
+        //     url: ARBITRUM_SEPOLIA_RPC_URL,
+        //     accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+        //     chainId: 421614,
+        // },
+        // optimisemSepolia: {
+        //     url: OPTIMISM_SEPOLIA_RPC_URL,
+        //     accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+        //     chainId: 11155420,
+        // },
     },
     defaultNetwork: "hardhat",
     etherscan: {

@@ -2,7 +2,7 @@ const { loadFixture } = require("@nomicfoundation/hardhat-network-helpers");
 const { assert, expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("Marketplace & collection uint tests", () => {
+describe.only("Marketplace & collection uint tests", () => {
     const deployMarketplaceFixture = async () => {
         // Contracts are deployed using the first signer/account by default
         const [collectionOwner, marketplaceOwner, backendAccount, buyerAccount] =
@@ -37,12 +37,16 @@ describe("Marketplace & collection uint tests", () => {
         it("deploy", async () => {
             const {
                 marketplaceContract,
-                collectionContract,
-                marketplaceOwner,
-                collectionOwner,
-                buyerAccount,
+                marketplaceOwner
             } = await loadFixture(deployMarketplaceFixture);
             assert.equal(await marketplaceContract.owner(), marketplaceOwner.address);
+        });
+
+        it("get chain id", async () => {
+            const {
+                marketplaceContract,
+            } = await loadFixture(deployMarketplaceFixture);
+            assert.equal(await marketplaceContract.chainId(), BigInt(31337));
         });
 
         it("buyListing (marketplace is not approved to transfer)", async () => {
@@ -57,7 +61,8 @@ describe("Marketplace & collection uint tests", () => {
             await collectionContract.setApprovalForAll(marketplaceContract.address, false);
             try {
                 await marketplaceContract.buyListing(
-                    await collectionContract.address,
+                    collectionContract.address,
+                    buyerAccount.address,
                     10,
                     5,
                     { value: 30 }
@@ -154,7 +159,8 @@ describe("Marketplace & collection uint tests", () => {
 
 
                 const tx = await marketplaceContractWithBuyer.buyListing(
-                    await collectionContract.address,
+                    collectionContract.address,
+                    buyerAccount.address,
                     10,
                     5,
                     { value: transferredValue }

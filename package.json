@@ -22,8 +22,12 @@
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.1",
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",
+    "@nomicfoundation/hardhat-ethers": "^3.0.6",
+    "@nomicfoundation/hardhat-ignition": "^0.15.4",
+    "@nomicfoundation/hardhat-ignition-ethers": "^0.15.4",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.10",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "@nomicfoundation/ignition-core": "^0.15.4",
     "@nomiclabs/hardhat-ethers": "^2.1.1",
     "@nomiclabs/hardhat-etherscan": "^3.1.0",
     "@typechain/ethers-v5": "^10.1.0",
@@ -42,7 +46,10 @@
     "typechain": "^8.1.0"
   },
   "dependencies": {
+    "@chainlink/contracts-ccip": "^1.4.0",
+    "@chainlink/local": "git+https://github.com/smartcontractkit/chainlink-local.git",
     "dotenv": "^16.0.3",
+    "forge-std": "^1.1.2",
     "pre-commit": "^1.2.2"
   },
   "lint-staged": {
