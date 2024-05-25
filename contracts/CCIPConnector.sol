@@ -14,6 +14,7 @@ contract CCIPConnector is CCIPReceiver {
     address public link;
     address public router;
     address public owner;
+    address public marketplace; // connected marketplace
 
     error NotEnoughBalance(uint256 currentBalance, uint256 calculatedFees); // Used to make sure contract has enough balance to cover the fees.
     error NothingToWithdraw(); // Used when trying to withdraw but there's nothing to withdraw.
@@ -68,9 +69,16 @@ contract CCIPConnector is CCIPReceiver {
         emit MessageRecived();
         (address to, uint256 id, uint256 amount, address collection) = abi
             .decode(message.data, (address, uint256, uint256, address));
-        (bool success, bytes memory data) = collection.call(
+
+        require(
+            marketplace != address(0),
+            "marketplace should be a valid address"
+        );
+
+        (bool success, bytes memory data) = marketplace.call(
             abi.encodeWithSignature(
-                "transferListing(address,uint256,uint256)",
+                "CCIPtransferListing(address,address,uint256,uint256)",
+                collection,
                 to,
                 id,
                 amount
@@ -80,6 +88,16 @@ contract CCIPConnector is CCIPReceiver {
     }
 
     receive() external payable {}
+
+    function updateMarketplace(
+        address connectedMarketplace
+    ) external onlyOwner {
+        require(
+            connectedMarketplace != address(0),
+            "connectedMarketplace should be a valid address"
+        );
+        marketplace = connectedMarketplace;
+    }
 
     function withdraw(address beneficiary) public onlyOwner {
         // Retrieve the balance of this contract

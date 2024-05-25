@@ -61,7 +61,8 @@ describe.only("Marketplace & collection uint tests", () => {
             await collectionContract.setApprovalForAll(marketplaceContract.address, false);
             try {
                 await marketplaceContract.buyListing(
-                    await collectionContract.address,
+                    collectionContract.address,
+                    buyerAccount.address,
                     10,
                     5,
                     { value: 30 }
@@ -158,7 +159,8 @@ describe.only("Marketplace & collection uint tests", () => {
 
 
                 const tx = await marketplaceContractWithBuyer.buyListing(
-                    await collectionContract.address,
+                    collectionContract.address,
+                    buyerAccount.address,
                     10,
                     5,
                     { value: transferredValue }

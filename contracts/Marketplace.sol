@@ -73,7 +73,7 @@ contract Marketplace {
         uint256 amount // amount that is bought
     ) external payable {
         if (block.chainid == destinationChainId) {
-            buyListing(collectionAddress, listingId, amount);
+            buyListing(collectionAddress, to, listingId, amount);
         } else {
             require(
                 ccipMapper != address(0),
@@ -108,8 +108,25 @@ contract Marketplace {
         return block.chainid;
     }
 
+    function CCIPtransferListing(
+        address collectionAddress,
+        address to,
+        uint256 listingId,
+        uint256 amount
+    ) external {
+        require(msg.sender == ccipSourceConnector, "only ccipSourceConnector can perform this operation");
+        require(amount > 0, "amount of listings should be greater then zero");
+        require(collectionAddress != address(0), "Collection does not exist");
+        ICollection(collectionAddress).transferListing(
+            to,
+            listingId,
+            amount
+        );
+    }
+
     function buyListing(
         address collectionAddress,
+        address to,
         uint256 listingId,
         uint256 amount
     ) public payable {
@@ -118,7 +135,7 @@ contract Marketplace {
         require(collectionAddress != address(0), "Collection does not exist");
         ICollection collection = ICollection(collectionAddress);
         ICollection(collectionAddress).transferListing(
-            msg.sender,
+            to,
             listingId,
             amount
         );
