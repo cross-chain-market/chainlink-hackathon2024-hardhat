@@ -1,6 +1,7 @@
 require("@nomicfoundation/hardhat-toolbox")
 require("./tasks")
 require("dotenv").config()
+const { ethers } = require("ethers");
 require("@nomiclabs/hardhat-etherscan")
 // require("@nomicfoundation/hardhat-ignition-ethers")
 
@@ -19,7 +20,7 @@ const MAINNET_RPC_URL =
     process.env.ALCHEMY_MAINNET_RPC_URL ||
     "https://eth-mainnet.alchemyapi.io/v2/your-api-key";
 const POLYGON_MAINNET_RPC_URL =
-    process.env.POLYGON_MAINNET_RPC_URL || "https://polygon-mainnet.alchemyapi.io/v2/your-api-key";
+process.env.POLYGON_MAINNET_RPC_URL || "https://polygon-mainnet.alchemyapi.io/v2/your-api-key";
 const MUMBAI_RPC_URL =
     process.env.MUMBAI_RPC_URL || "https://polygon-mumbai.g.alchemy.com/v2/your-api-key"
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL;
@@ -28,7 +29,7 @@ const AVALANCH_FUJI_RPC_URL = process.env.AVALANCH_FUJI_RPC_URL;
 const POLYGON_AMOY_RPC_URL = process.env.POLYGON_AMOY_RPC_URL;
 const OPTIMISM_SEPOLIA_RPC_URL = process.env.OPTIMISM_SEPOLIA_RPC_URL;
 
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "Your private key";
+const PRIVATE_KEY = process.env.PRIVATE_KEY;
 // optional
 const MNEMONIC = process.env.MNEMONIC || "Your mnemonic"
 const FORKING_BLOCK_NUMBER = parseInt(process.env.FORKING_BLOCK_NUMBER) || 0
