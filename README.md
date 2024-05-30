@@ -16,6 +16,26 @@ This is the repo that holds all smart contracts that are part of the project cal
 - [chainlink](https://chain.link/)
 - [openzeppelin](https://www.openzeppelin.com/)
 
+## Deployed contracts
+
+### Avalanche Fuji (Testnet)
+```bash
+Market - 0xb65eFBCb305f8c5Fb13ec3A7c2b1658046E8290d
+CollectionFactory - 0x43871555C9291B89E8B3906285047eA59Eb39A92
+Collection - 0x8bE0aEEa349aD16F680a6f51681eb14659f89447
+Connector - 0x54aE20e6aff19e01842eB33476aaC1253984874E
+Mapper - 0xE290A97629ee82b4907D1695b09c5F57c17f5059
+```
+
+### Polygon Amoy (Testnet)
+```bash
+Market - 0x1866380708C7EeC51C8557E40ba98ECe37f61dF0
+CollectionFactory - 0xd0D05446a76be24713dF2F383CfdcAae66A8bf6B
+Connector - 0x33D0555cCeaA36fcCDb3Ddc33243538A6FB8C02F
+Mapper - 0xFfB60f298947C468A088dAC442cD14bc2b0B6235
+priceFeed - 0xdd71E800eaB1FFACe6E9a66d46A3703F5947761e
+```
+
 ## Getting Started
 
 > **Pre-requisites:**
