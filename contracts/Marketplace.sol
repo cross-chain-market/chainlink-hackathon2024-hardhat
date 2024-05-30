@@ -75,6 +75,9 @@ contract Marketplace {
         if (block.chainid == destinationChainId) {
             buyListing(collectionAddress, to, listingId, amount);
         } else {
+
+            payForProducts(collectionAddress, listingId, amount);
+
             require(
                 ccipMapper != address(0),
                 "cross chain connector is not initialized"
@@ -133,15 +136,20 @@ contract Marketplace {
         require(msg.value > 0, "payment should be greater then zero");
         require(amount > 0, "amount of listings should be greater then zero");
         require(collectionAddress != address(0), "Collection does not exist");
-        ICollection collection = ICollection(collectionAddress);
+        payForProducts(collectionAddress, listingId, amount);
         ICollection(collectionAddress).transferListing(
             to,
             listingId,
             amount
         );
 
+        
+    }
+
+    function payForProducts(address collectionAddress, uint256 listingId, uint256 amount) internal {
         uint256 feeAmount = (msg.value * fee) / 100;
         uint256 paymentToOwner = msg.value - feeAmount;
+        ICollection collection = ICollection(collectionAddress);
 
         (bool success, ) = payable(collection.owner()).call{
             value: paymentToOwner
