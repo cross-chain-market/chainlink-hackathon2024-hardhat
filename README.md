@@ -3,7 +3,7 @@
 ![Merado logo](https://github.com/cross-chain-market/chainlink-hackathon2024-hardhat/blob/main/Merado_logo.svg?raw=true)
 
 
-![Architecture](https://github.com/cross-chain-market/chainlink-hackathon2024-hardhat/blob/main/architecture.svg?raw=true)
+![Architecture](https://github.com/cross-chain-market/chainlink-hackathon2024-hardhat/blob/main/architecture.png?raw=true)
 
 <!-- markdownlint-restore -->
 
