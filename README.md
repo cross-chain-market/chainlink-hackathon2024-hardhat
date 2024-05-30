@@ -1,6 +1,9 @@
 <!-- markdownlint-disable -->
 
-![Merado logo](https://github.com/cross-chain-market/chainlink-hackathon2024-web/blob/main/public/logo.svg?raw=true)
+![Merado logo](https://github.com/cross-chain-market/chainlink-hackathon2024-hardhat/blob/main/Merado_logo.svg?raw=true)
+
+
+![Architecture](https://github.com/cross-chain-market/chainlink-hackathon2024-hardhat/blob/main/architecture.svg?raw=true)
 
 <!-- markdownlint-restore -->
 
@@ -15,6 +18,27 @@ This is the repo that holds all smart contracts that are part of the project cal
 - [hardhat](https://hardhat.org/)
 - [chainlink](https://chain.link/)
 - [openzeppelin](https://www.openzeppelin.com/)
+
+## Contract information
+- All contracts are located under contracts folder.
+- Contracts there where developed for the hackathon and not part of chainlink toolkit are:
+
+#
+
+* Marketplace.sol holds the marketplace fee of a given chain, handles the payment for a given product in the origin chain and then handle transfer of erc1155 products between seller and buyer. CCIPBuyListing is the entry point function that is used by buyers
+
+* CollectionFactory.sol contract that is used to deploy new collections, used to listen on events by quicknode
+
+* Collection.sol collection based on erc1155 for holding record of products for a given collection that a seller created
+
+* CCIPConnector.sol used to pass messages between different chains, and in this way support cross chain interactions
+
+* CCIPMapping.sol holds mapping of selectors which is part of chainlink infra and also ccip connector addresses per chainId
+
+* AvalanchePriceConversion.sol holds price conversions from usd to avalanche native token
+
+* PolygonAmoyPriceConversion.sol holds price conversions from usd to polygon native token
+
 
 ## Deployed contracts
 
