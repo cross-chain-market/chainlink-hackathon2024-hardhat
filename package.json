@@ -1,8 +1,9 @@
 {
-  "name": "hardhat-starter-kit",
+  "name": "Merado-hardhat-project",
   "license": "MIT",
   "version": "2.0.0",
-  "description": "A repo for boilerplate code for testing, deploying, and shipping chainlink solidity code.",
+  "author": "Tal Waserman",
+  "description": "Merado hardhat project, used to create all smart contracts needed in chainlink hackathon 2024",
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test test/unit/*.spec.js",
